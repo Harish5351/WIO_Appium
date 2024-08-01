@@ -12,15 +12,18 @@
   "description": "",
   "devDependencies": {
     "@wdio/appium-service": "^8.39.1",
+    "@wdio/browserstack-service": "^8.39.1",
     "@wdio/cli": "^8.39.1",
     "@wdio/cucumber-framework": "^8.39.0",
     "@wdio/local-runner": "^8.39.1",
     "@wdio/spec-reporter": "^8.39.0",
     "@wdio/visual-service": "^5.2.0",
     "appium": "^2.11.2",
-    "appium-uiautomator2-driver": "^3.7.4"
+    "appium-uiautomator2-driver": "^3.7.4",
+    "appium-wait-plugin": "^3.0.2"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "ts-node": "^10.9.2"
   }
 }

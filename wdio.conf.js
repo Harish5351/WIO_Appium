@@ -1,55 +1,58 @@
+require('dotenv').config();
+
 exports.config = {
     runner: 'local',
-    port: 4723,
     specs: [
-      './features/**/*.feature'
+        './features/DemoApp.feature'
     ],
     exclude: [],
-    maxInstances: 1,
+    maxInstances: 10,
     capabilities: [{
-      platformName: 'Android',
-      browserName: '',
-      'appium:deviceName': 'Redmi_9A', // Ensure this matches your real device name
-      'appium:platformVersion': '10',
-      'appium:automationName': 'UiAutomator2',
-      'appium:appPackage': 'com.miui.calculator', // Check if this is correct
-      'appium:appActivity': 'com.miui.calculator.cal.CalculatorActivity' // Check if this is correct
+        'bstack:options': {
+            os: 'Android',
+            osVersion: '10.0',
+            deviceName: 'Google Pixel 3',
+            app: process.env.BROWSERSTACK_APP_ID,
+            projectName: 'My Project',
+            buildName: 'Build 1',
+            sessionName: 'Android Test',
+            debug: true,
+            networkLogs: true
+        },
+        browserName: '',
+        'goog:chromeOptions': {
+            w3c: true
+        }
     }],
-    screenshotPath: './Screenshots',
-    screenshotOnReject: true,
-    logLevel: 'info',
+    logLevel: 'debug',
     bail: 0,
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
-    connectionRetryCount: 3,
+    connectionRetryCount: 1,
     services: [
-        ['appium', {
-            command: 'appium',
-            args: {
-                'appium:port': 4723
-            }
+        ['browserstack', {
+            browserstackLocal: true,
+            user: process.env.BROWSERSTACK_USERNAME,
+            key: process.env.BROWSERSTACK_ACCESS_KEY
         }]
     ],
     framework: 'cucumber',
-    reporters: ['spec'],
     cucumberOpts: {
-      require: ['./features/step-definitions/*.js'],
-      backtrace: false,
-      requireModule: [],
-      dryRun: false,
-      failFast: false,
-      name: [],
-      snippets: true,
-      source: true,
-      strict: false,
-      tagExpression: '',
-      timeout: 60000,
-      ignoreUndefinedDefinitions: false
+        require: ['./features/step-definitions/*.js'],
+        backtrace: false,
+        requireModule: [],
+        dryRun: false,
+        failFast: false,
+        name: [],
+        snippets: true,
+        source: true,
+        strict: false,
+        tagExpression: '',
+        timeout: 60000,
+        ignoreUndefinedDefinitions: false
     },
-    // Hooks
     onPrepare: function (config, capabilities) {
         console.log('Preparing tests...');
-        // Custom preparation logic if needed
     },
     onComplete: function (exitCode, config, capabilities, results) {
         console.log('Tests completed.');
