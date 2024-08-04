@@ -3,5 +3,6 @@ module.exports = {
     username: $('//android.widget.EditText[@content-desc="Username input field"]'),
     password: $('//android.widget.EditText[@content-desc="Password input field"]'),
     verify_page:$('//android.widget.TextView[@text="Products"]'),
-    three_dots:$('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView')
+    three_dots:$('//android.view.ViewGroup[@content-desc="open menu"]/android.widget.ImageView'),
+    LogInBtn:$('//android.widget.TextView[@text="Log In"]')
 }

@@ -1,5 +1,5 @@
 const { When, Then } = require('@cucumber/cucumber');
-const {DemoPage} = require('../pageobjects/DemoPage');
+const DemoPage = require('../pageobjects/DemoPage');
 const demoPage = new DemoPage();
 
 When('User is on home page', async () => {
@@ -7,7 +7,7 @@ When('User is on home page', async () => {
 });
 
 When('User click on login button', async () => {
-  await demoPage.clikButton();
+  await demoPage.clickButton();
 });
 
 When('User enters username and password', async () => {

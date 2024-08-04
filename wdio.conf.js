@@ -1,30 +1,35 @@
 require('dotenv').config();
-
+const path = require('path')
 exports.config = {
+    user: 'harishchandraeka_UmOGRA',
+    key: 'NWvWfmkS7TKyvDWmNCLo',
+    // app:'bs://9c30b24f037d35e5a0af6171d96ab2a7a04564e0',
     runner: 'local',
     specs: [
-        './features/DemoApp.feature'
+        './features/Demo.feature'
     ],
     exclude: [],
     maxInstances: 10,
+    // app: 'bs://9c30b24f037d35e5a0af6171d96ab2a7a04564e0',
     capabilities: [{
         'bstack:options': {
-            os: 'Android',
-            osVersion: '10.0',
-            deviceName: 'Google Pixel 3',
-            app: process.env.BROWSERSTACK_APP_ID,
-            projectName: 'My Project',
-            buildName: 'Build 1',
-            sessionName: 'Android Test',
-            debug: true,
-            networkLogs: true
+            deviceName: "Samsung Galaxy S21",
+            osVersion: "11.0",
+            appiumVersion: "1.22.0",
+            projectName: "My Android Project",
+            buildName: "Build 2.0",
+            sessionName: "Android App Test",
+            // app: "bs://9c30b24f037d35e5a0af6171d96ab2a7a04564e0" // Place the app URL here
         },
-        browserName: '',
-        'goog:chromeOptions': {
-            w3c: true
-        }
+        // browserName: ""
+        // app: "bs://9c30b24f037d35e5a0af6171d96ab2a7a04564e0"
+        // browserName: '',
+        // 'goog:chromeOptions': {
+        //     w3c: true
+        // }
     }],
     logLevel: 'debug',
+    path: '/wd/hub',
     bail: 0,
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
@@ -32,10 +37,12 @@ exports.config = {
     services: [
         ['browserstack', {
             browserstackLocal: true,
-            user: process.env.BROWSERSTACK_USERNAME,
-            key: process.env.BROWSERSTACK_ACCESS_KEY
+            app: "bs://9c30b24f037d35e5a0af6171d96ab2a7a04564e0"
+            // user: process.env.BROWSERSTACK_USERNAME,
+            // key: process.env.BROWSERSTACK_ACCESS_KEY
         }]
     ],
+    // services: ['browserstack'],
     framework: 'cucumber',
     cucumberOpts: {
         require: ['./features/step-definitions/*.js'],
