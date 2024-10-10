@@ -1,4 +1,6 @@
-.logs/
-.run/
-.local.log/
-.node_modules/
+logs/
+run/
+local.log
+node_modules/
+allure-report/
+allure-results/
