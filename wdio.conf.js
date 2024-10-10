@@ -1,57 +1,75 @@
+require('dotenv').config();
+const path = require('path')
 exports.config = {
+    user: process.env.BROWSERSTACK_USERNAME,
+    key: process.env.BROWSERSTACK_ACCESS_KEY,
     runner: 'local',
-    port: 4723,
     specs: [
-      './features/**/*.feature'
+        './features/Demo.feature'
+    ],
+    reporters: [
+        'spec',
+        ['allure', {
+            outputDir: 'allure-results',
+            disableWebdriverStepsReporting: true,
+            disableWebdriverScreenshotsReporting: false,
+        }]
     ],
     exclude: [],
-    maxInstances: 1,
+    maxInstances: 10,
     capabilities: [{
-      platformName: 'Android',
-      browserName: '',
-      'appium:deviceName': 'Redmi_9A', // Ensure this matches your real device name
-      'appium:platformVersion': '10',
-      'appium:automationName': 'UiAutomator2',
-      'appium:appPackage': 'com.miui.calculator', // Check if this is correct
-      'appium:appActivity': 'com.miui.calculator.cal.CalculatorActivity' // Check if this is correct
+        'bstack:options': {
+            deviceName: "Samsung Galaxy S21",
+            osVersion: "11.0",
+            appiumVersion: "1.22.0",
+            projectName: "My Android Project",
+            buildName: "Build 2.0",
+            sessionName: "Android App Test"
+        },
     }],
-    screenshotPath: './Screenshots',
-    screenshotOnReject: true,
-    logLevel: 'info',
+    logLevel: 'debug',
+    path: '/wd/hub',
     bail: 0,
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
-    connectionRetryCount: 3,
+    connectionRetryCount: 1,
     services: [
-        ['appium', {
-            command: 'appium',
-            args: {
-                'appium:port': 4723
-            }
+        ['browserstack', {
+            browserstackLocal: true,
+            app: process.env.BROWSERSTACK_APP_ID
         }]
     ],
     framework: 'cucumber',
-    reporters: ['spec'],
     cucumberOpts: {
-      require: ['./features/step-definitions/*.js'],
-      backtrace: false,
-      requireModule: [],
-      dryRun: false,
-      failFast: false,
-      name: [],
-      snippets: true,
-      source: true,
-      strict: false,
-      tagExpression: '',
-      timeout: 60000,
-      ignoreUndefinedDefinitions: false
+        require: ['./features/step-definitions/*.js'],
+        backtrace: false,
+        requireModule: [],
+        dryRun: false,
+        failFast: false,
+        name: [],
+        snippets: true,
+        source: true,
+        strict: false,
+        tagExpression: '',
+        timeout: 60000,
+        ignoreUndefinedDefinitions: false
     },
-    // Hooks
     onPrepare: function (config, capabilities) {
         console.log('Preparing tests...');
-        // Custom preparation logic if needed
     },
     onComplete: function (exitCode, config, capabilities, results) {
         console.log('Tests completed.');
-    }
+    },
+    beforeSuite: function (suite) {
+        console.log('Starting suite:', suite.title);
+        browser.addCommand('takeScreenshot', async function () {
+            await browser.saveScreenshot(join('errorShots', `${Date.now()}.png`));
+        });
+    },
+
+    afterTest: function (test, context, { error, result, duration, passed, retries }) {
+        if (!passed) {
+            browser.takeScreenshot();
+        }
+    },
 };
